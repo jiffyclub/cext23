@@ -18,12 +18,13 @@ dirname = os.path.dirname(__file__)
 #
 # for this reason ctypes is probably best used with already installed
 # C libraries
-if sys.version_info < (3, 5):
+if os.path.exists(os.path.join(dirname, '_cext.so')):
     libfile = '_cext.so'
 else:
+    major = sys.version_info.major
     minor = sys.version_info.minor
     libfile = glob.glob(
-        os.path.join(dirname, '_cext.*3{}*.so'.format(minor)))[0]
+        os.path.join(dirname, '_cext.*{}{}*.so'.format(major, minor)))[0]
 
 lib = os.path.join(dirname, libfile)
 cext = cdll.LoadLibrary(lib)
