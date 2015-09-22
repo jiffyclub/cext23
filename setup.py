@@ -7,7 +7,7 @@ setup(
     packages=find_packages(),
     ext_modules=[
         Extension(
-            'cext23._cext', ['src/add.c'], ['src/'])],
+            'cext23.ctypes._cext', ['src/add.c'], ['src/'])],
     setup_requires=['cffi >= 1.1'],
-    cffi_modules=['cext23/cextcffi_build.py:ffi'],
+    cffi_modules=['cext23/cffi/cextcffi_build.py:ffi'],
     install_requires=['cffi >= 1.1'])

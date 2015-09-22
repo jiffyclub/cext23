@@ -4,7 +4,7 @@ from cffi import FFI
 ffi = FFI()
 
 ffi.set_source(
-    'cext23._cextcffi',
+    'cext23.cffi._cextcffi',
     '#include "add.h"',
     include_dirs=['src/'],
     sources=['src/add.c'])
