@@ -1,4 +1,9 @@
-from ._cextcffi import ffi, lib
+from ._cextcffi import lib
 
 
-print(lib.add(1, 2))
+def add(x, y):
+    """
+    Add two integers.
+
+    """
+    return lib.add(x, y)
