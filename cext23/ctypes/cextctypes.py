@@ -20,8 +20,10 @@ dirname = os.path.dirname(__file__)
 # C libraries
 if sys.version_info < (3, 5):
     libfile = '_cext.so'
-elif sys.version_info[:2] == (3, 5):
-    libfile = glob.glob(os.path.join(dirname, '_cext.*35*.so'))[0]
+else:
+    minor = sys.version_info.minor
+    libfile = glob.glob(
+        os.path.join(dirname, '_cext.*3{}*.so'.format(minor)))[0]
 
 lib = os.path.join(dirname, libfile)
 cext = cdll.LoadLibrary(lib)
