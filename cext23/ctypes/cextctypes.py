@@ -1,10 +1,29 @@
+# See the ctypes documentation at
+# https://docs.python.org/3/library/ctypes.html
 import glob
 import os.path
+import sys
 from ctypes import cdll
 
 
+dirname = os.path.dirname(__file__)
 
-lib = glob.glob(os.path.join(os.path.dirname(__file__), '_cext*.so'))[0]
+# have to jump through some hoops here because on Python 3.5(+) the
+# compiled .so file has a fancy name, see
+# https://docs.python.org/3/whatsnew/3.5.html#build-and-c-api-changes
+#
+# this is probably not how this should be done in practice,
+# and I'm not sure about the best way to compile your C code and make it
+# available to your Python file
+#
+# for this reason ctypes is probably best used with already installed
+# C libraries
+if sys.version_info < (3, 5):
+    libfile = '_cext.so'
+elif sys.version_info[:2] == (3, 5):
+    libfile = glob.glob(os.path.join(dirname, '_cext.*35*.so'))[0]
+
+lib = os.path.join(dirname, libfile)
 cext = cdll.LoadLibrary(lib)
 
 
