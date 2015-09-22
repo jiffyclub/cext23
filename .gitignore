@@ -56,3 +56,6 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# Cython generated C files
+cext23/cython/*.c
