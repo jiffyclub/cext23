@@ -1,3 +1,4 @@
+# See CFFI docs at https://cffi.readthedocs.org/en/latest/
 from cffi import FFI
 
 
