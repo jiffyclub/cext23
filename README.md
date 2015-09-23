@@ -34,6 +34,12 @@ before deciding to write C.*
 
 ## Commonalities
 
+cext23 is a demonstration package with the goal of using different
+C interface tools to create identical Python APIs from the same
+C source code.
+As I describe the interface tools below I'll be linking into the
+source code to demonstrate the different aspects of each tool.
+
 In all of the examples discussed the C code being wrapped is exactly
 the same and it won't reference Python at all.
 All of the Python to C interface layer will be done in Python and/or
@@ -49,6 +55,11 @@ where it's easy.
 The goal is to use the Python wrapper to give users a good experience
 while handing the core of the computation off to compiled C.
 
+### Testing
+
+Tests can be run using [pytest][] by cloning this repo
+and running the command `python setup.py test`.
+
 ## CFFI
 
 From the [CFFI homepage][CFFI]:
@@ -63,6 +74,7 @@ but when interacting with C code the best strategy is what they call
 In this mode you write a Python file that describes your extension:
 what headers to include, what C code to build with, what libraries to
 link with, what functions are part of your interface, etc.
+The file is plain Python, but does contain C code in strings.
 CFFI uses that Python to create a C file with your Python-C interface defined
 and then compiles that into a library file that you can import into Python.
 Check out the example CFFI-build file
@@ -71,12 +83,44 @@ and the wrapping Python module [cextcffi.py](./cext23/cffi/cextcffi.py).
 
 Overall using CFFI was a pleasant experience.
 I especially like that it handles gathering up all the C code into
-a single library/extension with the same interface as the
+a single library/extension via the same interface as the
 [distutils Extension class][distutils-ext].
 CFFI also has great [setuptools][] [integration][cffi-dist]
-to automatically run the extension building as part of installs.
+to automatically run the extension building as part of installs
+(see [setup.py][]).
 
 ## Cython
+
+From the [Cython homepage][Cython]:
+
+> Cython is an optimising static compiler for both the Python programming
+> language and the extended Cython programming language (based on Pyrex).
+> It makes writing C extensions for Python as easy as Python itself.
+
+The Cython process is pretty similar to the CFFI process:
+you write a special file that Cython converts to C and that is
+then compiled up with other C files into an importable Python library.
+In the case of CFFI that special file is written in Python;
+with Cython the file is written in [Cython's Python-like langauge][cython-lang].
+The cext23 example is in [_cext.pyx](./cext23/cython/_cext.pyx).
+
+Like CFFI, Cython also has [distutils integration][cython-dist] so that
+Cython extensions can be automatically built during installation.
+When distributing releases of your source code you may note want to
+distribute your Cython `.pyx` code, instead you can distribute the
+Cython generated `.c` files so that folks can build your project without
+having Cython available.
+Doing this requires [a little finesse][cython-dist-c].
+(Now that Cython is available via things like [Anaconda][] and [Conda][]
+it's probably less of a burden on users to have Cython installed.
+Binary distribution with [wheels][] and [Conda][] also eliminate the need
+for users to compile extensions at all.)
+
+Cython already has broad usage in the scientific Python community where it's
+often used to avoid writing plain-C code at all.
+If you're only looking for a performance gain via C but don't want to
+actually write C then Cython is a good choice.
+(Though examine [Numba][] as well.)
 
 ## ctypes
 
@@ -92,11 +136,20 @@ to automatically run the extension building as part of installs.
 [cporting]: https://docs.python.org/3/howto/cporting.html
 [snarky]: http://www.snarky.ca/try-to-not-use-the-c-api-directly
 [CFFI]: http://cffi.readthedocs.org/
-[Cython]: http://docs.cython.org/
+[Cython]: http://cython.org/
 [ctypes]: https://docs.python.org/3/library/ctypes.html
 [perf-alts]: https://packaging.python.org/en/latest/extensions/#alternatives-to-handcoded-accelerator-modules
+[pytest]: https://pytest.org/
 [cffi-overview]: https://cffi.readthedocs.org/en/latest/overview.html
 [cffi-api-level]: https://cffi.readthedocs.org/en/latest/overview.html#real-example-api-level-out-of-line
 [distutils-ext]: https://docs.python.org/3/distutils/apiref.html#distutils.core.Extension
 [setuptools]: https://pythonhosted.org/setuptools/index.html
 [cffi-dist]: https://cffi.readthedocs.org/en/latest/cdef.html
+[setup.py]: ./setup.py
+[cython-lang]: http://docs.cython.org/src/userguide/language_basics.html
+[cython-dist]: http://docs.cython.org/src/reference/compilation.html#compiling-with-distutils
+[cython-dist-c]: http://docs.cython.org/src/reference/compilation.html#distributing-cython-modules
+[Anaconda]: https://store.continuum.io/cshop/anaconda/
+[Conda]: http://conda.pydata.org/docs/
+[wheels]: https://wheel.readthedocs.org/en/latest/
+[Numba]: http://numba.pydata.org/
