@@ -30,12 +30,12 @@ extensions = [
     # this compiles the code for the ctypes example
     Extension(
         name='cext23.ctypes._cext',
-        sources=['src/add.c'],
+        sources=['src/demo.c'],
         include_dirs=['src/']),
     # this compiles the Cython example
     Extension(
         name='cext23.cython._cext',
-        sources=['cext23/cython/_cext.pyx', 'src/add.c'],
+        sources=['cext23/cython/_cext.pyx', 'src/demo.c'],
         include_dirs=['src/'])]
 
 setup(

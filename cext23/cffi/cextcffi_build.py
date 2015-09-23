@@ -13,9 +13,9 @@ ffi = FFI()
 # https://docs.python.org/3/distutils/apiref.html#distutils.core.Extension
 ffi.set_source(
     'cext23.cffi._cextcffi',
-    '#include "add.h"',
+    '#include "demo.h"',
     include_dirs=['src/'],
-    sources=['src/add.c'])
+    sources=['src/demo.c'])
 
 # declare the functions, variables, etc. from the stuff in set_source
 # that you want to access from your C extension:
