@@ -59,6 +59,8 @@ while handing the core of the computation off to compiled C.
 
 Tests can be run using [pytest][] by cloning this repo
 and running the command `python setup.py test`.
+(I have only run the tests on Mac and Linux and I don't think the
+ctypes example will work on Windows.)
 
 ## CFFI
 
@@ -123,6 +125,31 @@ actually write C then Cython is a good choice.
 (Though examine [Numba][] as well.)
 
 ## ctypes
+
+From the [ctypes][] documentation:
+
+> ctypes is a foreign function library for Python.
+> It provides C compatible data types, and allows calling functions in
+> DLLs or shared libraries.
+> It can be used to wrap these libraries in pure Python.
+
+[ctypes][] is a Python standard library module that allows programmers to
+call functions in C libraries from pure-Python modules.
+Using ctypes does not involve making a Python C extension,
+instead it's calling from pure-Python into plain compiled C.
+However, you still need some compiled C to call, and ctypes
+does not have any facilities for creating a compiled library
+that installs with your Python library.
+
+For this example I used standard [distutils extension features][distutils-ext]
+(see [setup.py][]) to create a compiled library that installs in the same
+directory as the [cextctypes.py](./cext23/ctypes/cextctypes.py) module.
+One challenge of that is that different Python versions on different systems
+create files with different names, so it takes some hacks to find the
+one to open with ctypes.
+I honestly have no idea if this is the correct way to use ctypes,
+I expect that ctypes is mostly meant for calling into separately
+installed C libraries and not for creating C-Python extensions.
 
 ## Conclusion
 
