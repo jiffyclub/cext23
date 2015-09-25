@@ -13,11 +13,18 @@ ffi = FFI()
 # https://docs.python.org/3/distutils/apiref.html#distutils.core.Extension
 ffi.set_source(
     'cext23.cffi._cextcffi',
-    '#include "demo.h"',
+    """
+    #include "demo.h"
+    #include <stdint.h>
+    """,
     include_dirs=['src/'],
     sources=['src/demo.c'])
 
 # declare the functions, variables, etc. from the stuff in set_source
 # that you want to access from your C extension:
 # https://cffi.readthedocs.org/en/latest/cdef.html#ffi-cdef-declaring-types-and-functions
-ffi.cdef('int scalar_int_add(int a, int b);')
+ffi.cdef(
+    """
+    int scalar_int_add(int a, int b);
+    int np_int32_add(int32_t* a, int32_t* b, int32_t* out, int size);
+    """)
