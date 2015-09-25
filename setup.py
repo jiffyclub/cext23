@@ -1,5 +1,6 @@
 import sys
 
+import numpy as np
 from Cython.Build import cythonize
 from setuptools import setup, find_packages, Extension
 from setuptools.command.test import test as TestCommand
@@ -37,7 +38,7 @@ extensions = [
     Extension(
         name='cext23.cython._cext',
         sources=['cext23/cython/_cext.pyx', 'src/demo.c'],
-        include_dirs=['src/'],
+        include_dirs=['src/', np.get_include()],
         extra_compile_args=['--std=c99'])]
 
 setup(
