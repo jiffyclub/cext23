@@ -18,7 +18,8 @@ ffi.set_source(
     #include <stdint.h>
     """,
     include_dirs=['src/'],
-    sources=['src/demo.c'])
+    sources=['src/demo.c'],
+    extra_compile_args=['--std=c99'])
 
 # declare the functions, variables, etc. from the stuff in set_source
 # that you want to access from your C extension:

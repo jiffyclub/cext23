@@ -31,12 +31,14 @@ extensions = [
     Extension(
         name='cext23.ctypes._cext',
         sources=['src/demo.c'],
-        include_dirs=['src/']),
+        include_dirs=['src/'],
+        extra_compile_args=['--std=c99']),
     # this compiles the Cython example
     Extension(
         name='cext23.cython._cext',
         sources=['cext23/cython/_cext.pyx', 'src/demo.c'],
-        include_dirs=['src/'])]
+        include_dirs=['src/'],
+        extra_compile_args=['--std=c99'])]
 
 setup(
     name='cext23',
