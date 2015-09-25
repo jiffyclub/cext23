@@ -68,8 +68,14 @@ while handing the core of the computation off to compiled C.
 
 Tests can be run using [pytest][] by cloning this repo
 and running the command `python setup.py test`.
-(I have only run the tests on Mac and Linux and I don't think the
-ctypes example will work on Windows.)
+Running the tests requires the following dependencies:
+
+- CFFI
+- Cython
+- NumPy
+
+I have only run the tests on Mac and Linux and I don't think the
+ctypes example will work on Windows.
 
 ## CFFI
 
