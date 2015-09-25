@@ -1,9 +1,11 @@
 # See the ctypes documentation at
 # https://docs.python.org/3/library/ctypes.html
+import ctypes as ct
 import glob
 import os.path
 import sys
-from ctypes import cdll
+
+import numpy as np
 
 
 dirname = os.path.dirname(__file__)
@@ -27,7 +29,7 @@ else:
         os.path.join(dirname, '_cext.*{}{}*.so'.format(major, minor)))[0]
 
 lib = os.path.join(dirname, libfile)
-cext = cdll.LoadLibrary(lib)
+cext = ct.cdll.LoadLibrary(lib)
 
 
 def scalar_int_add(x, y):
@@ -36,3 +38,19 @@ def scalar_int_add(x, y):
 
     """
     return cext.scalar_int_add(x, y)
+
+
+def np_int32_add(x, y):
+    """
+    Add two integer NumPy arrays elementwise.
+
+    """
+    # info on the ndarray.ctypes attribute is at
+    # http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.ctypes.html
+    out = np.empty_like(x)
+    cext.np_int32_add(
+        x.ctypes.data_as(ct.POINTER(ct.c_int32)),
+        y.ctypes.data_as(ct.POINTER(ct.c_int32)),
+        out.ctypes.data_as(ct.POINTER(ct.c_int32)),
+        x.size)
+    return out
