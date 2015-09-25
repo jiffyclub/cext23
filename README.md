@@ -9,7 +9,6 @@
 - [ctypes](#ctypes)
 - [Conclusion](#conclusion)
 - [Qualifiers](#qualifiers)
-- [Wish List](#wish-list)
 
 ## Introduction
 
@@ -31,6 +30,16 @@ Below I'll be describing how to wrap C code using
 work with. If you don't already have C and are only looking for performance
 improvements then you have [other options][perf-alts] you should explore
 before deciding to write C.*
+
+### Help Out!
+
+Pull requests with expanded examples and issues with corrections or
+suggestions are appreciated!
+I would love for this demo repo to have some more complicated examples,
+especially involving NumPy and translating between Python and C data types.
+(The integers in the current example map seamlessly between Python
+and C, but most other data types do not and it requires some extra setup
+in the Python wrapper before sending the data to C.)
 
 ## Commonalities
 
@@ -120,6 +129,7 @@ for users to compile extensions at all.)
 
 Cython already has broad usage in the scientific Python community where it's
 often used to avoid writing plain-C code at all.
+(Cython [works very well with NumPy][cython-numpy].)
 If you're only looking for a performance gain via C but don't want to
 actually write C then Cython is a good choice.
 (Though examine [Numba][] as well.)
@@ -153,9 +163,32 @@ installed C libraries and not for creating C-Python extensions.
 
 ## Conclusion
 
+|     | Strengths | Weaknesses |
+| --- | --------- | ---------- |
+| [CFFI][] | Builds C extension, plain Python and C | can involve C |
+| [Cython][] | Builds C extension, Python-like language | yet another language |
+| [ctypes][] | standard library | doesn't help build C extension |
+
+I was impressed with both CFFI and Cython for their ability to compile
+my custom C code together with their generated interfaces to create a
+complete, importable Python module.
+I'm comfortable writing C and I have existing C code so CFFI's
+[API discovery magic][cffi-c-magic] is very attractive.
+But people who have to write a lot of C interface code
+or don't already know C might appreciate the compact,
+Pythonic [Cython language][cython-lang].
+CFFI and Cython both seem like great options and it's going to take
+some more experimentation before I can decide which is best for my
+immediate needs, especially when it comes to working with NumPy arrays.
+
+While researching this project I found
+[this page][ppug-ext] from the [Python Packaging User Guide][ppug]
+very useful.
+
 ## Qualifiers
 
-## Wish List
+This has been my first experience with CFFI, Cython, and ctypes so
+my writeup may contain inaccuracies and/or incompleteness.
 
 [future]: https://docs.python.org/3/library/__future__.html
 [six]: https://pythonhosted.org/six/
@@ -169,6 +202,7 @@ installed C libraries and not for creating C-Python extensions.
 [pytest]: https://pytest.org/
 [cffi-overview]: https://cffi.readthedocs.org/en/latest/overview.html
 [cffi-api-level]: https://cffi.readthedocs.org/en/latest/overview.html#real-example-api-level-out-of-line
+[cffi-c-magic]: https://cffi.readthedocs.org/en/latest/cdef.html#letting-the-c-compiler-fill-the-gaps
 [distutils-ext]: https://docs.python.org/3/distutils/apiref.html#distutils.core.Extension
 [setuptools]: https://pythonhosted.org/setuptools/index.html
 [cffi-dist]: https://cffi.readthedocs.org/en/latest/cdef.html
@@ -176,7 +210,10 @@ installed C libraries and not for creating C-Python extensions.
 [cython-lang]: http://docs.cython.org/src/userguide/language_basics.html
 [cython-dist]: http://docs.cython.org/src/reference/compilation.html#compiling-with-distutils
 [cython-dist-c]: http://docs.cython.org/src/reference/compilation.html#distributing-cython-modules
+[cython-numpy]: http://docs.cython.org/src/tutorial/numpy.html
 [Anaconda]: https://store.continuum.io/cshop/anaconda/
 [Conda]: http://conda.pydata.org/docs/
 [wheels]: https://wheel.readthedocs.org/en/latest/
 [Numba]: http://numba.pydata.org/
+[ppug-ext]: https://packaging.python.org/en/latest/extensions/
+[ppug]: https://packaging.python.org/en/latest/
