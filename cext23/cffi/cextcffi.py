@@ -2,9 +2,9 @@
 from ._cextcffi import lib
 
 
-def add(x, y):
+def scalar_int_add(x, y):
     """
     Add two integers.
 
     """
-    return lib.add(x, y)
+    return lib.scalar_int_add(x, y)

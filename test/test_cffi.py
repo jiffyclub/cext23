@@ -1,5 +1,5 @@
 from cext23.cffi import cextcffi
 
 
-def test_add():
-    assert cextcffi.add(33, 98) == 131
+def test_scalar_int_add():
+    assert cextcffi.scalar_int_add(33, 98) == 131

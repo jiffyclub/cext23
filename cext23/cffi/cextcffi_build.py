@@ -20,4 +20,4 @@ ffi.set_source(
 # declare the functions, variables, etc. from the stuff in set_source
 # that you want to access from your C extension:
 # https://cffi.readthedocs.org/en/latest/cdef.html#ffi-cdef-declaring-types-and-functions
-ffi.cdef('int add(int a, int b);')
+ffi.cdef('int scalar_int_add(int a, int b);')

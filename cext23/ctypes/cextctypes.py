@@ -30,9 +30,9 @@ lib = os.path.join(dirname, libfile)
 cext = cdll.LoadLibrary(lib)
 
 
-def add(x, y):
+def scalar_int_add(x, y):
     """
     Add two integers.
 
     """
-    return cext.add(x, y)
+    return cext.scalar_int_add(x, y)

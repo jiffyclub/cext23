@@ -1,5 +1,5 @@
 from cext23.ctypes import cextctypes
 
 
-def test_add():
-    assert cextctypes.add(33, 98) == 131
+def test_scalar_int_add():
+    assert cextctypes.scalar_int_add(33, 98) == 131
