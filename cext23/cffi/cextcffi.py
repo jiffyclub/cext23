@@ -17,6 +17,10 @@ def np_int32_add(x, y):
     Add two integer NumPy arrays elementwise.
 
     """
+    # info on the ndarray.ctypes attribute is at
+    # http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.ctypes.html
+    # I learned about this via this SO question:
+    # http://stackoverflow.com/questions/16276268/how-to-pass-a-numpy-array-into-a-cffi-function-and-how-to-get-one-back-out
     x_ptr = ffi.cast('int32_t *', x.ctypes.data)
     y_ptr = ffi.cast('int32_t *', y.ctypes.data)
     out = np.empty_like(x)
